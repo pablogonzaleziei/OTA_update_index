@@ -16,7 +16,7 @@
 
     h1 {
         font-size: 1.8rem;
-        color: rgb(255, 153, 255);
+        color: #367AF6;
     }
 
     p {
@@ -51,11 +51,15 @@
     /* Apply the animation to the image with the "dissolve" class */
     .dissolve {
         animation-name: dissolve;
-        animation-duration: 3s;
+        animation-duration: 2s;
         animation-timing-function: ease-out;
     }
 
     .card-grid {
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         max-width: 500px;
         height: 200px;
         margin: auto;
@@ -63,6 +67,7 @@
         display: grid;
         grid-gap: 2rem;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
     }
 
     input[type="submit"] {
@@ -103,6 +108,21 @@
     .card {
         background-color: white;
         box-shadow: 2px 2px 12px 1px rgba(140, 140, 140, .5);
+        margin-bottom: 1rem;
+        opacity: 0;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(-100%);
+        }
+
+        to {
+            transform: none;
+            opacity: 1;
+        }
     }
 
     .card-title {
@@ -131,6 +151,22 @@
                 <div id='prg'>progress: 0%</div>
 
                 <script>
+
+                    const cards = document.querySelectorAll('.card');
+
+                    // Add a mouseover event listener to each card
+                    cards.forEach(card => {
+                        card.addEventListener('mouseover', function () {
+                            // Check if card has not been shown before
+                            if (!this.classList.contains('shown')) {
+                                // Add shown class to card to indicate it has been shown
+                                this.classList.add('shown');
+                                // Add slideIn animation to card
+                                this.style.animationName = 'slideIn';
+                                this.style.animationDuration = '0.8s';
+                            }
+                        });
+                    });
                     $('form').submit(function (e) {
                         e.preventDefault();
                         var form = $('#upload_form')[0];
